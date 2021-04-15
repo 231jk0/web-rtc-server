@@ -43,11 +43,10 @@ var cors_1 = __importDefault(require("cors"));
 var express_1 = __importDefault(require("express"));
 var http_1 = __importDefault(require("http"));
 var socket_io_1 = require("socket.io");
+var global_constants_1 = require("./constants/global.constants");
+var PORT_NUMBER = 5000;
 var corsSettings = {
-    origin: [
-        'http://localhost:3000',
-        'https://e9ceca6fc36e.ngrok.io'
-    ],
+    origin: [global_constants_1.FRONTEND_URL],
     credentials: true
 };
 function startServer() {
@@ -60,21 +59,21 @@ function startServer() {
             io = new socket_io_1.Server(server, {
                 cors: corsSettings
             });
-            app.get('/', function (req, res) {
+            app.get('/', function (_req, res) {
                 res.json('ime_sobe').status(200);
             });
             io.on('connection', function (socket) {
+                console.log('someone connected');
                 socket.on('join-room', function (roomId, userId) {
                     socket.join(roomId);
-                    console.log({ roomId: roomId, userId: userId });
                     socket
                         .broadcast
                         .to(roomId)
                         .emit('user-connected', userId);
                 });
             });
-            server.listen(5000, function () {
-                console.log('server started 2');
+            server.listen(PORT_NUMBER, function () {
+                console.log("Server started on port " + PORT_NUMBER + ".");
             });
             return [2 /*return*/];
         });
