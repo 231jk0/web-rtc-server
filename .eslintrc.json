@@ -1,0 +1,42 @@
+
+{
+	"env": {
+		"node": true,
+		"browser": true,
+		"es6": true
+	},
+	"root": true,
+	"parser": "@typescript-eslint/parser",
+	"plugins": [
+		"@typescript-eslint"
+	],
+	"parserOptions": {
+		"ecmaVersion": 2018,
+		"sourceType": "module",
+		"project": true
+	},
+	"extends": [
+		"plugin:@typescript-eslint/recommended"
+	],
+	"rules": {
+		"indent": "off",
+		"@typescript-eslint/explicit-module-boundary-types": "off",
+		"@typescript-eslint/prefer-interface": "off",
+		"@typescript-eslint/indent": ["warn", "tab"],
+		"@typescript-eslint/ban-types": "off",
+		"@typescript-eslint/explicit-function-return-type": "off",
+		"@typescript-eslint/explicit-member-accessibility": [
+			"warn",
+			{ "accessibility": "no-public" }
+		],
+		"keyword-spacing": "warn",
+		"no-trailing-spaces": "warn",
+		"no-multiple-empty-lines": ["warn", { "max": 1 }],
+		"spaced-comment": "warn",
+		"semi": ["error", "always"],
+		"padded-blocks": ["error", { "classes": "never" }],
+		"no-console": "warn",
+		"quotes": ["warn", "single", "avoid-escape"],
+		"comma-dangle": ["error", "never"]
+	}
+}
