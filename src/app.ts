@@ -4,10 +4,12 @@ import http from 'http';
 import { Server, Socket } from 'socket.io';
 import { FRONTEND_URL } from './constants/global.constants';
 
+const connectedUsers: any[] = [];
+
 const PORT_NUMBER = 5000;
 
 const corsSettings = {
-	origin: [ FRONTEND_URL ],
+	origin: [ FRONTEND_URL, 'http://localhost:3000' ],
 	credentials: true
 };
 
@@ -30,14 +32,22 @@ async function startServer() {
 	});
 
 	io.on('connection', (socket: Socket) => {
-		console.log('someone connected');
-
 		socket.on('join-room', (roomId, userId) => {
 			socket.join(roomId);
 			socket
 				.broadcast
 				.to(roomId)
 				.emit('user-connected', userId);
+			connectedUsers[userId] = true;
+			console.log({connectedUsers});
+			socket.on('disconnect', () => {
+				socket
+					.broadcast
+					.to(roomId)
+					.emit('user-disconnected', userId);
+				delete connectedUsers[userId];
+				console.log({connectedUsers});
+			});
 		});
 	});
 
